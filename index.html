@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>图书馆管理系统架构设计</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 100%;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-item {
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-item:hover {
+            background-color: #e6f7ff;
+        }
+
+        .main-content {
+            margin-left: 220px;
+            padding: 20px;
+        }
+
+        .diagram-container {
+            background-color: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #1a1a1a;
+            border-bottom: 2px solid #1890ff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <h3>架构视图</h3>
+        <div class="nav-item" onclick="scrollToView('asrs')">架构重要性需求</div>
+        <div class="nav-item" onclick="scrollToView('business')">业务架构</div>
+        <div class="nav-item" onclick="scrollToView('technical')">技术架构</div>
+        <div class="nav-item" onclick="scrollToView('logical')">逻辑架构</div>
+        <div class="nav-item" onclick="scrollToView('data')">数据架构</div>
+        <div class="nav-item" onclick="scrollToView('physical')">物理架构</div>
+    </div>
+
+    <div class="main-content">
+        <div class="diagram-container" id="asrs">
+            <h2>架构重要性需求 (ASRs)</h2>
+            <div class="mermaid">
+                mindmap
+                  root((Library ASRs))
+                    Performance
+                      Response Time
+                        Search < 2s
+                        Checkout < 3s
+                      Concurrency
+                        1000 Users
+                        Multiple Branches
+                    Availability
+                      99.9% Uptime
+                      Disaster Recovery
+                        1hr RTO
+                        Data Backup
+                    Security
+                      Authentication
+                        SSO Integration
+                        Role-based Access
+                      Data Protection
+                        Encryption
+                        Audit Trails
+                    Scalability
+                      Horizontal Scaling
+                        Multiple Branches
+                        Cloud Ready
+                      Data Growth
+                        1M+ Books
+                        100K+ Users
+                    Integration
+                      External Systems
+                        Payment Gateway
+                        Email System
+                      Standards
+                        MARC21
+                        Z39.50
+            </div>
+        </div>
+
+        <div class="diagram-container" id="business">
+            <h2>业务架构</h2>
+            <div class="mermaid">
+                flowchart TD
+                    subgraph Core Library Operations
+                        A[Book Management] --> B[Circulation]
+                        B --> C[User Services]
+                        A --> D[Catalog Management]
+                    end
+                    
+                    subgraph Support Services
+                        E[Financial Management] --> F[Reporting & Analytics]
+                        G[Member Management] --> F
+                    end
+                    
+                    subgraph Digital Services
+                        H[Digital Resources] --> I[Online Access]
+                        I --> J[Search Services]
+                    end
+                    
+                    B --> E
+                    C --> G
+                    D --> J
+                    
+                    style Core Library Operations fill:#f9f,stroke:#333
+                    style Support Services fill:#bbf,stroke:#333
+                    style Digital Services fill:#bfb,stroke:#333
+            </div>
+        </div>
+
+        <div class="diagram-container" id="technical">
+            <h2>技术架构</h2>
+            <div class="mermaid">
+                flowchart TD
+                    subgraph Presentation Layer
+                        A1[Web Interface] --> A2[Mobile App]
+                        A2 --> A3[Staff Portal]
+                    end
+                    
+                    subgraph Application Layer
+                        B1[Spring Boot Services] --> B2[REST APIs]
+                        B2 --> B3[Business Logic]
+                        B3 --> B4[Integration Services]
+                    end
+                    
+                    subgraph Data Layer
+                        C1[PostgreSQL] --> C2[Redis Cache]
+                        C2 --> C3[Elasticsearch]
+                    end
+                    
+                    subgraph Infrastructure Layer
+                        D1[Docker] --> D2[Kubernetes]
+                        D2 --> D3[Cloud Services]
+                    end
+                    
+                    A3 --> B1
+                    B4 --> C1
+                    C3 --> D1
+                    
+                    style Presentation Layer fill:#f9f,stroke:#333
+                    style Application Layer fill:#bbf,stroke:#333
+                    style Data Layer fill:#bfb,stroke:#333
+                    style Infrastructure Layer fill:#fbb,stroke:#333
+            </div>
+        </div>
+
+        <div class="diagram-container" id="logical">
+            <h2>逻辑架构</h2>
+            <div class="mermaid">
+                flowchart TD
+                    subgraph Frontend
+                        A[Web UI] --> B[Mobile UI]
+                        B --> C[Staff UI]
+                    end
+                    
+                    subgraph Core Services
+                        D[Authentication Service]
+                        E[Catalog Service]
+                        F[Circulation Service]
+                        G[User Service]
+                    end
+                    
+                    subgraph Support Services
+                        H[Notification Service]
+                        I[Payment Service]
+                        J[Report Service]
+                    end
+                    
+                    subgraph Data Services
+                        K[Database Service]
+                        L[Cache Service]
+                        M[Search Service]
+                    end
+                    
+                    C --> D
+                    D --> E
+                    E --> F
+                    F --> G
+                    G --> H
+                    H --> I
+                    I --> J
+                    J --> K
+                    K --> L
+                    L --> M
+                    
+                    style Frontend fill:#f9f,stroke:#333
+                    style Core Services fill:#bbf,stroke:#333
+                    style Support Services fill:#bfb,stroke:#333
+                    style Data Services fill:#fbb,stroke:#333
+            </div>
+        </div>
+
+        <div class="diagram-container" id="data">
+            <h2>数据架构</h2>
+            <div class="mermaid">
+                erDiagram
+                    BOOK ||--o{ BOOK_COPY : "has"
+                    BOOK_COPY ||--o{ LOAN : "involved in"
+                    MEMBER ||--o{ LOAN : "borrows"
+                    MEMBER ||--o{ RESERVATION : "makes"
+                    BOOK ||--o{ RESERVATION : "reserved for"
+                    MEMBER ||--o{ FINE : "pays"
+                    LOAN ||--o{ FINE : "generates"
+                    BOOK {
+                        string ISBN
+                        string title
+                        string author
+                        string publisher
+                        date publishDate
+                    }
+                    BOOK_COPY {
+                        string copyId
+                        string status
+                        string location
+                    }
+                    MEMBER {
+                        string memberId
+                        string name
+                        string email
+                        string status
+                    }
+                    LOAN {
+                        string loanId
+                        date checkoutDate
+                        date dueDate
+                        date returnDate
+                    }
+                    RESERVATION {
+                        string reservationId
+                        date reservationDate
+                        string status
+                    }
+                    FINE {
+                        string fineId
+                        float amount
+                        string status
+                        date dueDate
+                    }
+            </div>
+        </div>
+
+        <div class="diagram-container" id="physical">
+            <h2>物理架构</h2>
+            <div class="mermaid">
+                flowchart TD
+                    subgraph Internet Zone
+                        A[CDN] --> B[Load Balancer]
+                        B --> C[Web Application Firewall]
+                    end
+                    
+                    subgraph Application Zone
+                        D[Web Servers] --> E[Application Servers]
+                        E --> F[Cache Servers]
+                    end
+                    
+                    subgraph Database Zone
+                        G[Primary DB] --> H[Replica DB]
+                        I[Search Cluster] --> J[Backup System]
+                    end
+                    
+                    C --> D
+                    F --> G
+                    F --> I
+                    
+                    style Internet Zone fill:#f9f,stroke:#333
+                    style Application Zone fill:#bbf,stroke:#333
+                    style Database Zone fill:#bfb,stroke:#333
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
+        });
+
+        function scrollToView(id) {
+            document.getElementById(id).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>
