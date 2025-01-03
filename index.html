@@ -5,7 +5,7 @@
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
             margin: 0;
             padding: 20px;
             background-color: #f0f2f5;
@@ -77,40 +77,40 @@
             <h2>架构重要性需求 (ASRs)</h2>
             <div class="mermaid">
                 mindmap
-                  root((Library ASRs))
-                    Performance
-                      Response Time
-                        Search < 2s
-                        Checkout < 3s
-                      Concurrency
-                        1000 Users
-                        Multiple Branches
-                    Availability
-                      99.9% Uptime
-                      Disaster Recovery
-                        1hr RTO
-                        Data Backup
-                    Security
-                      Authentication
-                        SSO Integration
-                        Role-based Access
-                      Data Protection
-                        Encryption
-                        Audit Trails
-                    Scalability
-                      Horizontal Scaling
-                        Multiple Branches
-                        Cloud Ready
-                      Data Growth
-                        1M+ Books
-                        100K+ Users
-                    Integration
-                      External Systems
-                        Payment Gateway
-                        Email System
-                      Standards
-                        MARC21
-                        Z39.50
+                    root((图书馆ASRs))
+                        性能
+                            响应时间
+                                检索 < 2秒
+                                借阅 < 3秒
+                            并发性
+                                1000用户
+                                多分馆
+                        可用性
+                            99.9%运行时间
+                            灾难恢复
+                                1小时RTO
+                                数据备份
+                        安全性
+                            认证
+                                单点登录集成
+                                基于角色访问
+                            数据保护
+                                加密
+                                审计跟踪
+                        可扩展性
+                            水平扩展
+                                多分馆
+                                云就绪
+                            数据增长
+                                100万+图书
+                                10万+用户
+                        集成
+                            外部系统
+                                支付网关
+                                邮件系统
+                            标准
+                                MARC21
+                                Z39.50
             </div>
         </div>
 
@@ -118,29 +118,29 @@
             <h2>业务架构</h2>
             <div class="mermaid">
                 flowchart TD
-                    subgraph Core Library Operations
-                        A[Book Management] --> B[Circulation]
-                        B --> C[User Services]
-                        A --> D[Catalog Management]
+                    subgraph 核心图书馆业务
+                        A[图书管理] --> B[流通服务]
+                        B --> C[用户服务]
+                        A --> D[编目管理]
                     end
                     
-                    subgraph Support Services
-                        E[Financial Management] --> F[Reporting & Analytics]
-                        G[Member Management] --> F
+                    subgraph 支持服务
+                        E[财务管理] --> F[报表与分析]
+                        G[会员管理] --> F
                     end
                     
-                    subgraph Digital Services
-                        H[Digital Resources] --> I[Online Access]
-                        I --> J[Search Services]
+                    subgraph 数字化服务
+                        H[电子资源] --> I[在线访问]
+                        I --> J[检索服务]
                     end
                     
                     B --> E
                     C --> G
                     D --> J
                     
-                    style Core Library Operations fill:#f9f,stroke:#333
-                    style Support Services fill:#bbf,stroke:#333
-                    style Digital Services fill:#bfb,stroke:#333
+                    style 核心图书馆业务 fill:#f9f,stroke:#333
+                    style 支持服务 fill:#bbf,stroke:#333
+                    style 数字化服务 fill:#bfb,stroke:#333
             </div>
         </div>
 
@@ -148,35 +148,35 @@
             <h2>技术架构</h2>
             <div class="mermaid">
                 flowchart TD
-                    subgraph Presentation Layer
-                        A1[Web Interface] --> A2[Mobile App]
-                        A2 --> A3[Staff Portal]
+                    subgraph 展示层
+                        A1[Web界面] --> A2[移动应用]
+                        A2 --> A3[员工门户]
                     end
                     
-                    subgraph Application Layer
-                        B1[Spring Boot Services] --> B2[REST APIs]
-                        B2 --> B3[Business Logic]
-                        B3 --> B4[Integration Services]
+                    subgraph 应用层
+                        B1[Spring Boot服务] --> B2[REST APIs]
+                        B2 --> B3[业务逻辑]
+                        B3 --> B4[集成服务]
                     end
                     
-                    subgraph Data Layer
-                        C1[PostgreSQL] --> C2[Redis Cache]
+                    subgraph 数据层
+                        C1[PostgreSQL] --> C2[Redis缓存]
                         C2 --> C3[Elasticsearch]
                     end
                     
-                    subgraph Infrastructure Layer
+                    subgraph 基础设施层
                         D1[Docker] --> D2[Kubernetes]
-                        D2 --> D3[Cloud Services]
+                        D2 --> D3[云服务]
                     end
                     
                     A3 --> B1
                     B4 --> C1
                     C3 --> D1
                     
-                    style Presentation Layer fill:#f9f,stroke:#333
-                    style Application Layer fill:#bbf,stroke:#333
-                    style Data Layer fill:#bfb,stroke:#333
-                    style Infrastructure Layer fill:#fbb,stroke:#333
+                    style 展示层 fill:#f9f,stroke:#333
+                    style 应用层 fill:#bbf,stroke:#333
+                    style 数据层 fill:#bfb,stroke:#333
+                    style 基础设施层 fill:#fbb,stroke:#333
             </div>
         </div>
 
@@ -184,28 +184,28 @@
             <h2>逻辑架构</h2>
             <div class="mermaid">
                 flowchart TD
-                    subgraph Frontend
-                        A[Web UI] --> B[Mobile UI]
-                        B --> C[Staff UI]
+                    subgraph 前端
+                        A[Web界面] --> B[移动界面]
+                        B --> C[员工界面]
                     end
                     
-                    subgraph Core Services
-                        D[Authentication Service]
-                        E[Catalog Service]
-                        F[Circulation Service]
-                        G[User Service]
+                    subgraph 核心服务
+                        D[认证服务]
+                        E[编目服务]
+                        F[流通服务]
+                        G[用户服务]
                     end
                     
-                    subgraph Support Services
-                        H[Notification Service]
-                        I[Payment Service]
-                        J[Report Service]
+                    subgraph 支持服务
+                        H[通知服务]
+                        I[支付服务]
+                        J[报表服务]
                     end
                     
-                    subgraph Data Services
-                        K[Database Service]
-                        L[Cache Service]
-                        M[Search Service]
+                    subgraph 数据服务
+                        K[数据库服务]
+                        L[缓存服务]
+                        M[检索服务]
                     end
                     
                     C --> D
@@ -219,10 +219,10 @@
                     K --> L
                     L --> M
                     
-                    style Frontend fill:#f9f,stroke:#333
-                    style Core Services fill:#bbf,stroke:#333
-                    style Support Services fill:#bfb,stroke:#333
-                    style Data Services fill:#fbb,stroke:#333
+                    style 前端 fill:#f9f,stroke:#333
+                    style 核心服务 fill:#bbf,stroke:#333
+                    style 支持服务 fill:#bfb,stroke:#333
+                    style 数据服务 fill:#fbb,stroke:#333
             </div>
         </div>
 
@@ -230,47 +230,71 @@
             <h2>数据架构</h2>
             <div class="mermaid">
                 erDiagram
-                    BOOK ||--o{ BOOK_COPY : "has"
-                    BOOK_COPY ||--o{ LOAN : "involved in"
-                    MEMBER ||--o{ LOAN : "borrows"
-                    MEMBER ||--o{ RESERVATION : "makes"
-                    BOOK ||--o{ RESERVATION : "reserved for"
-                    MEMBER ||--o{ FINE : "pays"
-                    LOAN ||--o{ FINE : "generates"
+                    BOOK ||--o{ BOOK_COPY : contains
+                    BOOK_COPY ||--o{ BORROW_RECORD : involved_in
+                    MEMBER ||--o{ BORROW_RECORD : borrows
+                    MEMBER ||--o{ RESERVATION : makes
+                    BOOK ||--o{ RESERVATION : reserved_for
+                    MEMBER ||--o{ FINE : pays
+                    BORROW_RECORD ||--o{ FINE : generates
                     BOOK {
-                        string ISBN
+                        string isbn PK
                         string title
                         string author
                         string publisher
-                        date publishDate
+                        string category
+                        date publish_date
+                        string language
+                        string description
+                        int total_copies
                     }
                     BOOK_COPY {
-                        string copyId
+                        string copy_id PK
+                        string book_isbn FK
                         string status
                         string location
+                        date purchase_date
+                        float price
+                        string condition
                     }
                     MEMBER {
-                        string memberId
+                        string member_id PK
                         string name
                         string email
+                        string phone
+                        date register_date
                         string status
+                        string type
+                        float deposit
                     }
-                    LOAN {
-                        string loanId
-                        date checkoutDate
-                        date dueDate
-                        date returnDate
+                    BORROW_RECORD {
+                        string borrow_id PK
+                        string copy_id FK
+                        string member_id FK
+                        date borrow_date
+                        date due_date
+                        date return_date
+                        string status
+                        string operator
                     }
                     RESERVATION {
-                        string reservationId
-                        date reservationDate
+                        string reservation_id PK
+                        string book_isbn FK
+                        string member_id FK
+                        date reserve_date
+                        date valid_until
                         string status
+                        int queue_position
                     }
                     FINE {
-                        string fineId
+                        string fine_id PK
+                        string borrow_id FK
                         float amount
+                        string reason
+                        date create_date
+                        date paid_date
                         string status
-                        date dueDate
+                        string payment_method
                     }
             </div>
         </div>
@@ -279,28 +303,28 @@
             <h2>物理架构</h2>
             <div class="mermaid">
                 flowchart TD
-                    subgraph Internet Zone
-                        A[CDN] --> B[Load Balancer]
-                        B --> C[Web Application Firewall]
+                    subgraph 互联网区
+                        A[CDN] --> B[负载均衡器]
+                        B --> C[Web应用防火墙]
                     end
                     
-                    subgraph Application Zone
-                        D[Web Servers] --> E[Application Servers]
-                        E --> F[Cache Servers]
+                    subgraph 应用区
+                        D[Web服务器] --> E[应用服务器]
+                        E --> F[缓存服务器]
                     end
                     
-                    subgraph Database Zone
-                        G[Primary DB] --> H[Replica DB]
-                        I[Search Cluster] --> J[Backup System]
+                    subgraph 数据区
+                        G[主数据库] --> H[从数据库]
+                        I[搜索集群] --> J[备份系统]
                     end
                     
                     C --> D
                     F --> G
                     F --> I
                     
-                    style Internet Zone fill:#f9f,stroke:#333
-                    style Application Zone fill:#bbf,stroke:#333
-                    style Database Zone fill:#bfb,stroke:#333
+                    style 互联网区 fill:#f9f,stroke:#333
+                    style 应用区 fill:#bbf,stroke:#333
+                    style 数据区 fill:#bfb,stroke:#333
             </div>
         </div>
     </div>
