@@ -2,10 +2,11 @@
 <html>
 <head>
     <title>图书馆管理系统架构设计</title>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.0/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js"></script>
     <style>
         body {
-            font-family: "Microsoft YaHei", Arial, sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
             background-color: #f0f2f5;
@@ -20,6 +21,7 @@
             background-color: #fff;
             padding: 20px;
             box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            overflow-y: auto;
         }
 
         .nav-item {
@@ -59,277 +61,597 @@
             justify-content: center;
             margin: 20px 0;
         }
+
+        .svg-container {
+            width: 100%;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .responsive-svg {
+            width: 100%;
+            height: auto;
+            max-width: 1200px;
+            margin: 0 auto;
+            transition: transform 0.3s ease;
+        }
+
+        .zoom-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .zoom-btn {
+            padding: 5px 10px;
+            background: #1890ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .zoom-btn:hover {
+            background: #40a9ff;
+        }
+
+        .markdown-body {
+            padding: 20px;
+            line-height: 1.6;
+            color: #24292e;
+        }
+
+        .markdown-body h1 {
+            font-size: 2em;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: .3em;
+        }
+
+        .markdown-body h2 {
+            font-size: 1.5em;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: .3em;
+        }
+
+        .markdown-body h3 {
+            font-size: 1.25em;
+        }
+
+        .markdown-body ul {
+            padding-left: 2em;
+        }
+
+        .markdown-body li {
+            margin: 0.5em 0;
+        }
+
+        .requirements-section {
+            margin-bottom: 30px;
+        }
+
+        .sub-nav {
+            margin-left: 20px;
+            font-size: 0.9em;
+            display: none;
+        }
+
+        .nav-item.active + .sub-nav {
+            display: block;
+        }
     </style>
 </head>
 <body>
     <div class="nav">
-        <h3>架构视图</h3>
-        <div class="nav-item" onclick="scrollToView('asrs')">架构重要性需求</div>
+        <h3>系统架构设计</h3>
+        <div class="nav-item" onclick="scrollToView('requirements')">需求分析</div>
+        <div class="sub-nav">
+            <div class="nav-item" onclick="scrollToView('functional-req')">功能需求</div>
+            <div class="nav-item" onclick="scrollToView('quality-req')">质量需求</div>
+        </div>
+        <div class="nav-item" onclick="scrollToView('asr')">架构重要性需求(ASR)</div>
         <div class="nav-item" onclick="scrollToView('business')">业务架构</div>
+        <div class="nav-item" onclick="scrollToView('logical')">应用架构(逻辑架构)</div>
         <div class="nav-item" onclick="scrollToView('technical')">技术架构</div>
-        <div class="nav-item" onclick="scrollToView('logical')">逻辑架构</div>
-        <div class="nav-item" onclick="scrollToView('data')">数据架构</div>
         <div class="nav-item" onclick="scrollToView('physical')">物理架构</div>
     </div>
 
     <div class="main-content">
-        <div class="diagram-container" id="asrs">
-            <h2>架构重要性需求 (ASRs)</h2>
-            <div class="mermaid">
-                mindmap
-                    root((图书馆ASRs))
-                        性能
-                            响应时间
-                                检索 < 2秒
-                                借阅 < 3秒
-                            并发性
-                                1000用户
-                                多分馆
-                        可用性
-                            99.9%运行时间
-                            灾难恢复
-                                1小时RTO
-                                数据备份
-                        安全性
-                            认证
-                                单点登录集成
-                                基于角色访问
-                            数据保护
-                                加密
-                                审计跟踪
-                        可扩展性
-                            水平扩展
-                                多分馆
-                                云就绪
-                            数据增长
-                                100万+图书
-                                10万+用户
-                        集成
-                            外部系统
-                                支付网关
-                                邮件系统
-                            标准
-                                MARC21
-                                Z39.50
+        <div class="diagram-container" id="requirements">
+            <h2>需求分析</h2>
+            <div id="requirements-content" class="markdown-body">
+                <!-- 需求分析内容将通过JavaScript加载 -->
             </div>
         </div>
 
+        <!-- ASR部分 -->
+        <div class="diagram-container" id="asr">
+            <h2>架构重要性需求 (ASR)</h2>
+            <div class="mermaid">
+                mindmap
+                图书馆系统ASRs
+                    性能需求 H_M
+                        响应时间指标
+                            系统并发用户数100
+                            操作响应时间3秒
+                        数据处理能力
+                            支持50万册图书
+                            支持3万名读者
+                    可靠性需求 H_H
+                        系统稳定性保障
+                            年均无故障率99.9
+                            故障恢复30分钟
+                        数据安全保障
+                            定期数据备份
+                            数据恢复机制
+                    安全性需求 H_H
+                        访问控制机制
+                            角色权限管理
+                            身份认证机制
+                        数据安全机制
+                            数据加密传输
+                            操作审计跟踪
+                    可扩展性需求 M_M
+                        功能扩展能力
+                            新模块扩展
+                            新读者类型
+                        数据扩展能力
+                            图书数量增长
+                            读者数量增长
+                    集成性需求 M_L
+                        外部系统对接
+                            校园管理系统
+                            一卡通系统
+                        数据交换能力
+                            标准数据接口
+                            多格式支持
+                    兼容性需求 M_L
+                        多端访问支持
+                            浏览器访问
+                            移动端访问
+                        平台兼容性
+                            主流操作系统
+                            主流数据库
+            </div>
+        </div>
+
+        <!-- 业务架构部分 -->
         <div class="diagram-container" id="business">
             <h2>业务架构</h2>
-            <div class="mermaid">
-                flowchart TD
-                    subgraph 核心图书馆业务
-                        A[图书管理] --> B[流通服务]
-                        B --> C[用户服务]
-                        A --> D[编目管理]
-                    end
+            <div class="svg-container">
+                <svg id="business-svg" class="responsive-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid meet">
+                    <!-- 背景 -->
+                    <rect width="1200" height="700" fill="#f5f5f5"/>
                     
-                    subgraph 支持服务
-                        E[财务管理] --> F[报表与分析]
-                        G[会员管理] --> F
-                    end
+                    <!-- 展示层 -->
+                    <rect x="50" y="20" width="150" height="60" fill="#b3b3ff" rx="5"/>
+                    <text x="70" y="55" font-size="20" fill="#000">展示层</text>
+                    <rect x="200" y="20" width="400" height="60" fill="#e6e6ff" rx="5"/>
+                    <text x="220" y="55" font-size="20" fill="#000">Web门户 移动APP 自助终端 管理终端</text>
                     
-                    subgraph 数字化服务
-                        H[电子资源] --> I[在线访问]
-                        I --> J[检索服务]
-                    end
+                    <!-- 用户角色 - 新位置和样式 -->
+                    <rect x="620" y="20" width="310" height="60" fill="#d4e6f1" rx="5"/>
+                    <text x="640" y="45" font-size="16" fill="#000">用户角色</text>
+                    <text x="640" y="65" font-size="14" fill="#000">系统管理员 图书管理员 读者 采购人员</text>
                     
-                    B --> E
-                    C --> G
-                    D --> J
+                    <!-- 外部系统背景 -->
+                    <rect x="950" y="20" width="200" height="660" fill="#ff9999" rx="5"/>
                     
-                    style 核心图书馆业务 fill:#f9f,stroke:#333
-                    style 支持服务 fill:#bbf,stroke:#333
-                    style 数字化服务 fill:#bfb,stroke:#333
+                    <!-- 外部系统接口内容 -->
+                    <text x="970" y="55" font-size="16" fill="#000">外部系统接口</text>
+                    <text x="970" y="95" font-size="14" fill="#000">一卡通系统</text>
+                    <text x="970" y="135" font-size="14" fill="#000">财务系统</text>
+                    <text x="970" y="175" font-size="14" fill="#000">门禁系统</text>
+                    <text x="970" y="215" font-size="14" fill="#000">资产系统</text>
+                    <text x="970" y="255" font-size="14" fill="#000">短信系统</text>
+                    <text x="970" y="295" font-size="14" fill="#000">邮件系统</text>
+                    
+                    <!-- 应用层主体 -->
+                    <rect x="50" y="100" width="150" height="500" fill="#b3d9b3" rx="5"/>
+                    <text x="85" y="330" font-size="20" fill="#000">应用层</text>
+                    <rect x="200" y="100" width="730" height="500" fill="#e6ffe6" rx="5"/>
+                    
+                    <!-- 图书管理模块 -->
+                    <g transform="translate(220,120)">
+                        <rect width="200" height="40" fill="#cce6cc" stroke="#666"/>
+                        <text x="50" y="25" font-size="16" fill="#000">图书资源管理</text>
+                        <rect y="40" width="200" height="180" fill="#fff" stroke="#666"/>
+                        <text x="20" y="70" font-size="14" fill="#000">- 图书采购入库</text>
+                        <text x="20" y="100" font-size="14" fill="#000">- 图书编目分类</text>
+                        <text x="20" y="130" font-size="14" fill="#000">- 馆藏信息管理</text>
+                        <text x="20" y="160" font-size="14" fill="#000">- 图书状态管理</text>
+                        <text x="20" y="190" font-size="14" fill="#000">- 图书盘点管理</text>
+                    </g>
+                    
+                    <!-- 借阅管理模块 -->
+                    <g transform="translate(440,120)">
+                        <rect width="200" height="40" fill="#cce6cc" stroke="#666"/>
+                        <text x="50" y="25" font-size="16" fill="#000">借阅服务管理</text>
+                        <rect y="40" width="200" height="180" fill="#fff" stroke="#666"/>
+                        <text x="20" y="70" font-size="14" fill="#000">- 图书借阅办理</text>
+                        <text x="20" y="100" font-size="14" fill="#000">- 图书归还处理</text>
+                        <text x="20" y="130" font-size="14" fill="#000">- 续借预约服务</text>
+                        <text x="20" y="160" font-size="14" fill="#000">- 超期催还管理</text>
+                        <text x="20" y="190" font-size="14" fill="#000">- 借阅统计分析</text>
+                    </g>
+                    
+                    <!-- 读者管理模块 -->
+                    <g transform="translate(660,120)">
+                        <rect width="200" height="40" fill="#cce6cc" stroke="#666"/>
+                        <text x="50" y="25" font-size="16" fill="#000">读者信息管理</text>
+                        <rect y="40" width="200" height="180" fill="#fff" stroke="#666"/>
+                        <text x="20" y="70" font-size="14" fill="#000">- 读者注册</text>
+                        <text x="20" y="100" font-size="14" fill="#000">- 借阅证管理</text>
+                        <text x="20" y="130" font-size="14" fill="#000">- 借阅记录</text>
+                        <text x="20" y="160" font-size="14" fill="#000">- 借阅权限设置</text>
+                        <text x="20" y="190" font-size="14" fill="#000">- 违规处理</text>
+                    </g>
+                    
+                    <!-- 增值服务模块 -->
+                    <g transform="translate(220,360)">
+                        <rect width="420" height="40" fill="#cce6cc" stroke="#666"/>
+                        <text x="160" y="25" font-size="16" fill="#000">增值服务管理</text>
+                        <rect y="40" width="420" height="180" fill="#fff" stroke="#666"/>
+                        <text x="20" y="70" font-size="14" fill="#000">- 新书推荐服务</text>
+                        <text x="20" y="100" font-size="14" fill="#000">- 专题书目服务</text>
+                        <text x="20" y="130" font-size="14" fill="#000">- 参考咨询服务</text>
+                        <text x="20" y="160" font-size="14" fill="#000">- 阅读推广活动</text>
+                        <text x="220" y="70" font-size="14" fill="#000">- 馆际互借服务</text>
+                        <text x="220" y="100" font-size="14" fill="#000">- 文献传递服务</text>
+                        <text x="220" y="130" font-size="14" fill="#000">- 教学资源服务</text>
+                        <text x="220" y="160" font-size="14" fill="#000">- 专题培训服务</text>
+                    </g>
+                    
+                    <!-- 统计分析模块 -->
+                    <g transform="translate(660,360)">
+                        <rect width="200" height="40" fill="#cce6cc" stroke="#666"/>
+                        <text x="50" y="25" font-size="16" fill="#000">统计分析管理</text>
+                        <rect y="40" width="200" height="180" fill="#fff" stroke="#666"/>
+                        <text x="20" y="70" font-size="14" fill="#000">- 借阅数据统计</text>
+                        <text x="20" y="100" font-size="14" fill="#000">- 读者行为分析</text>
+                        <text x="20" y="130" font-size="14" fill="#000">- 馆藏利用分析</text>
+                        <text x="20" y="160" font-size="14" fill="#000">- 读者满意度分析</text>
+                    </g>
+                    
+                    <!-- 基础设施层 -->
+                    <rect x="50" y="620" width="150" height="60" fill="#ffb366" rx="5"/>
+                    <text x="70" y="655" font-size="20" fill="#000">基础设施层</text>
+                    <rect x="200" y="620" width="730" height="60" fill="#ffe6cc" rx="5"/>
+                    <text x="220" y="655" font-size="20" fill="#000">服务器集群 存储系统 网络设施 安全设施</text>
+                </svg>
+            </div>
+        </div>
+
+        <!-- 应用架构部分 -->
+        <div class="diagram-container" id="logical">
+            <h2>应用架构 (逻辑架构)</h2>
+            <div class="svg-container">
+                <svg id="logical-svg" class="responsive-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet">
+                    <!-- 背景 -->
+                    <rect width="1200" height="800" fill="#f5f5f5"/>
+                    
+                    <!-- 箭头定义 -->
+                    <defs>
+                        <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#666"/>
+                        </marker>
+                    </defs>
+                
+                    <!-- 左侧数据分析栏 - 调整位置和尺寸 -->
+                    <rect x="50" y="180" width="100" height="400" fill="#4db6ac" rx="5"/>
+                    <!-- 调整文字位置和间距 -->
+                    <text x="100" y="280" font-size="16" fill="#fff" writing-mode="tb" text-anchor="middle">数据查询</text>
+                    <text x="100" y="380" font-size="16" fill="#fff" writing-mode="tb" text-anchor="middle">数据统计</text>
+                    <text x="100" y="480" font-size="16" fill="#fff" writing-mode="tb" text-anchor="middle">数据分析</text>
+                
+                    <!-- 展示层 -->
+                    <rect x="170" y="20" width="760" height="100" fill="#b3e0ff" rx="5"/>
+                    <text x="190" y="50" font-size="16" font-weight="bold" fill="#000">展示层</text>
+                    <rect x="190" y="60" width="720" height="50" fill="#fff" rx="5"/>
+                    <text x="210" y="90" font-size="14" fill="#000">Web门户</text>
+                    <text x="410" y="90" font-size="14" fill="#000">移动APP</text>
+                    <text x="610" y="90" font-size="14" fill="#000">自助终端</text>
+                    <text x="810" y="90" font-size="14" fill="#000">管理终端</text>
+                
+                    <!-- 负载均衡层 -->
+                    <rect x="170" y="130" width="760" height="40" fill="#80cbc4" rx="5"/>
+                    <text x="500" y="155" font-size="14" fill="#fff">负载均衡</text>
+                
+                    <!-- 应用服务层 -->
+                    <rect x="170" y="180" width="760" height="400" fill="#d9f2d9" rx="5"/>
+                    <text x="190" y="210" font-size="16" font-weight="bold" fill="#000">应用服务层</text>
+                
+                    <!-- 业务服务组A -->
+                    <rect x="190" y="230" width="220" height="160" fill="#e6ffe6" rx="5" stroke="#666"/>
+                    <text x="200" y="250" font-size="14" font-weight="bold" fill="#000">图书资源服务组</text>
+                    <rect x="200" y="260" width="200" height="30" fill="#90EE90" rx="3"/>
+                    <text x="210" y="280" font-size="12" fill="#000">资源采购服务</text>
+                    <rect x="200" y="300" width="200" height="30" fill="#90EE90" rx="3"/>
+                    <text x="210" y="320" font-size="12" fill="#000">编目分类服务</text>
+                    <rect x="200" y="340" width="200" height="30" fill="#90EE90" rx="3"/>
+                    <text x="210" y="360" font-size="12" fill="#000">馆藏管理服务</text>
+                
+                    <!-- 业务服务组B -->
+                    <rect x="440" y="230" width="220" height="160" fill="#e6ffe6" rx="5" stroke="#666"/>
+                    <text x="450" y="250" font-size="14" font-weight="bold" fill="#000">借阅服务组</text>
+                    <rect x="450" y="260" width="200" height="30" fill="#90EE90" rx="3"/>
+                    <text x="460" y="280" font-size="12" fill="#000">借还处理服务</text>
+                    <rect x="450" y="300" width="200" height="30" fill="#90EE90" rx="3"/>
+                    <text x="460" y="320" font-size="12" fill="#000">预约续借服务</text>
+                    <rect x="450" y="340" width="200" height="30" fill="#90EE90" rx="3"/>
+                    <text x="460" y="360" font-size="12" fill="#000">催还处理服务</text>
+                
+                    <!-- 业务服务组C -->
+                    <rect x="690" y="230" width="220" height="160" fill="#e6ffe6" rx="5" stroke="#666"/>
+                    <text x="700" y="250" font-size="14" font-weight="bold" fill="#000">读者服务组</text>
+                    <rect x="700" y="260" width="200" height="30" fill="#90EE90" rx="3"/>
+                    <text x="710" y="280" font-size="12" fill="#000">读者管理服务</text>
+                    <rect x="700" y="300" width="200" height="30" fill="#90EE90" rx="3"/>
+                    <text x="710" y="320" font-size="12" fill="#000">证件管理服务</text>
+                    <rect x="700" y="340" width="200" height="30" fill="#90EE90" rx="3"/>
+                    <text x="710" y="360" font-size="12" fill="#000">权限管理服务</text>
+                
+                    <!-- 中间件层 -->
+                    <rect x="190" y="400" width="720" height="160" fill="#fff" rx="5"/>
+                    <text x="200" y="420" font-size="14" font-weight="bold" fill="#000">中间件服务</text>
+                    
+                    <!-- 中间件服务 -->
+                    <rect x="200" y="430" width="160" height="120" fill="#e6ffe6" rx="3"/>
+                    <text x="220" y="480" font-size="12" fill="#000">工作流引擎</text>
+                    
+                    <rect x="370" y="430" width="160" height="120" fill="#e6ffe6" rx="3"/>
+                    <text x="390" y="480" font-size="12" fill="#000">资源管理</text>
+                    
+                    <rect x="540" y="430" width="160" height="120" fill="#e6ffe6" rx="3"/>
+                    <text x="560" y="480" font-size="12" fill="#000">接口规范</text>
+                    
+                    <rect x="710" y="430" width="160" height="120" fill="#e6ffe6" rx="3"/>
+                    <text x="730" y="480" font-size="12" fill="#000">消息队列</text>
+                
+                    <!-- 数据层 -->
+                    <rect x="170" y="590" width="760" height="160" fill="#ffcc99" rx="5"/>
+                    <text x="190" y="620" font-size="16" font-weight="bold" fill="#000">数据层</text>
+                
+                    <!-- 结构化数据 -->
+                    <rect x="190" y="630" width="350" height="100" fill="#fff" rx="5"/>
+                    <text x="200" y="650" font-size="14" fill="#000">结构化数据</text>
+                    <text x="200" y="680" font-size="12" fill="#000">关系型数据库</text>
+                    <text x="200" y="700" font-size="12" fill="#000">缓存数据库</text>
+                
+                    <!-- 非结构化数据 -->
+                    <rect x="560" y="630" width="350" height="100" fill="#fff" rx="5"/>
+                    <text x="570" y="650" font-size="14" fill="#000">非结构化数据</text>
+                    <text x="570" y="680" font-size="12" fill="#000">文件存储</text>
+                    <text x="570" y="700" font-size="12" fill="#000">检索引擎</text>
+                
+                    <!-- 外部系统集成 -->
+                    <rect x="950" y="180" width="200" height="400" fill="#ffe6cc" rx="5"/>
+                    <text x="970" y="210" font-size="16" font-weight="bold" fill="#000">外部系统集成</text>
+                    <rect x="970" y="230" width="160" height="330" fill="#fff" rx="5"/>
+                    <text x="990" y="260" font-size="14" fill="#000">一卡通系统</text>
+                    <text x="990" y="290" font-size="14" fill="#000">财务系统</text>
+                    <text x="990" y="320" font-size="14" fill="#000">门禁系统</text>
+                    <text x="990" y="350" font-size="14" fill="#000">资产系统</text>
+                    <text x="990" y="380" font-size="14" fill="#000">短信系统</text>
+                    <text x="990" y="410" font-size="14" fill="#000">邮件系统</text>
+                
+                    <!-- 交互箭头 -->
+                    <path d="M550,120 L550,130" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    <path d="M550,170 L550,180" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    <path d="M410,310 L440,310" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    <path d="M660,310 L690,310" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    <path d="M300,390 L300,430" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    <path d="M550,390 L550,430" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    <path d="M800,390 L800,430" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    <path d="M300,550 L300,590" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    <path d="M550,550 L550,590" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    <path d="M800,550 L800,590" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    <path d="M930,310 L950,310" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    <path d="M950,480 L930,480" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    <path d="M150,350 L190,350" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                </svg>
             </div>
         </div>
 
         <div class="diagram-container" id="technical">
             <h2>技术架构</h2>
-            <div class="mermaid">
-                flowchart TD
-                    subgraph 展示层
-                        A1[Web界面] --> A2[移动应用]
-                        A2 --> A3[员工门户]
-                    end
+            <div class="svg-container">
+                <svg id="technical-svg" class="responsive-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid meet">
+                    <!-- 前端层 -->
+                    <rect x="50" y="20" width="1100" height="180" fill="#e6f3ff" rx="5"/>
+                    <text x="60" y="45" font-size="16" font-weight="bold">前端技术层</text>
                     
-                    subgraph 应用层
-                        B1[Spring Boot服务] --> B2[REST APIs]
-                        B2 --> B3[业务逻辑]
-                        B3 --> B4[集成服务]
-                    end
+                    <!-- Web端 -->
+                    <rect x="60" y="60" width="340" height="130" fill="#ffffff" stroke="#666"/>
+                    <text x="70" y="85" font-size="14" font-weight="bold">Web端</text>
+                    <text x="70" y="110" font-size="12">- Vue.js + Element UI：管理员图书管理界面</text>
+                    <text x="70" y="130" font-size="12">- WebPack + Babel：读者检索借阅界面</text>
+                    <text x="70" y="150" font-size="12">- Axios + Vuex：统一状态管理和API调用</text>
+                    <text x="70" y="170" font-size="12" fill="#666">（实现在线借阅、续借、预约等功能）</text>
+                
+                    <!-- 移动端 -->
+                    <rect x="420" y="60" width="340" height="130" fill="#ffffff" stroke="#666"/>
+                    <text x="430" y="85" font-size="14" font-weight="bold">移动端</text>
+                    <text x="430" y="110" font-size="12">- React Native：移动图书馆APP</text>
+                    <text x="430" y="130" font-size="12">- Flutter：跨平台移动应用开发</text>
+                    <text x="430" y="150" font-size="12">- 微信小程序：便捷的移动端访问入口</text>
+                    <text x="430" y="170" font-size="12" fill="#666">（实现移动端图书查询、个人中心等功能）</text>
+                
+                    <!-- 终端设备 -->
+                    <rect x="780" y="60" width="360" height="130" fill="#ffffff" stroke="#666"/>
+                    <text x="790" y="85" font-size="14" font-weight="bold">终端设备</text>
+                    <text x="790" y="110" font-size="12">- 自助借还机：24小时自助借还服务</text>
+                    <text x="790" y="130" font-size="12">- RFID读卡器：图书快速定位与防盗</text>
+                    <text x="790" y="150" font-size="12">- 条码扫描器：图书信息快速采集</text>
+                    <text x="790" y="170" font-size="12" fill="#666">（提供自助服务，提升借还效率）</text>
+                
+                    <!-- 网关层 -->
+                    <rect x="50" y="220" width="1100" height="100" fill="#fff0f5" rx="5"/>
+                    <text x="60" y="245" font-size="16" font-weight="bold">网关层</text>
+                    <rect x="60" y="260" width="1080" height="50" fill="#ffffff" stroke="#666"/>
+                    <text x="70" y="285" font-size="12">- Nginx：反向代理和负载均衡，处理并发访问</text>
+                    <text x="470" y="285" font-size="12">- SpringCloud Gateway：API网关，统一接口管理</text>
+                    <text x="870" y="285" font-size="12">- Swagger：API文档管理与测试</text>
+                
+                    <!-- 应用服务层 -->
+                    <rect x="50" y="340" width="1100" height="220" fill="#f0fff0" rx="5"/>
+                    <text x="60" y="365" font-size="16" font-weight="bold">应用服务层</text>
                     
-                    subgraph 数据层
-                        C1[PostgreSQL] --> C2[Redis缓存]
-                        C2 --> C3[Elasticsearch]
-                    end
+                    <rect x="60" y="380" width="1080" height="170" fill="#ffffff" stroke="#666"/>
+                    <text x="70" y="405" font-size="12">- Spring Boot + Spring Cloud：微服务架构基础框架（实现业务模块化管理）</text>
+                    <text x="70" y="435" font-size="12">- Spring Security + JWT：统一认证授权（实现读者身份认证和权限控制）</text>
+                    <text x="70" y="465" font-size="12">- MyBatis + JPA：数据访问层（处理图书、读者、借阅等核心数据）</text>
+                    <text x="70" y="495" font-size="12">- Elasticsearch + Logstash：全文检索引擎（实现图书快速检索、日志分析）</text>
+                    <text x="70" y="525" font-size="12">- RabbitMQ：消息队列（处理借阅通知、到期提醒等异步消息）</text>
+                
+                    <!-- 中间件层 -->
+                    <rect x="50" y="580" width="1100" height="140" fill="#fff5e6" rx="5"/>
+                    <text x="60" y="605" font-size="16" font-weight="bold">中间件层</text>
                     
-                    subgraph 基础设施层
-                        D1[Docker] --> D2[Kubernetes]
-                        D2 --> D3[云服务]
-                    end
+                    <rect x="60" y="620" width="340" height="90" fill="#ffffff" stroke="#666"/>
+                    <text x="70" y="645" font-size="12">服务注册与发现</text>
+                    <text x="70" y="670" font-size="12">- Nacos/Eureka</text>
+                    <text x="70" y="690" font-size="12" fill="#666">（管理分布式服务节点）</text>
+                
+                    <rect x="420" y="620" width="340" height="90" fill="#ffffff" stroke="#666"/>
+                    <text x="430" y="645" font-size="12">消息队列</text>
+                    <text x="430" y="670" font-size="12">- RabbitMQ</text>
+                    <text x="430" y="690" font-size="12" fill="#666">（处理借阅通知、到期提醒）</text>
+                
+                    <rect x="780" y="620" width="360" height="90" fill="#ffffff" stroke="#666"/>
+                    <text x="790" y="645" font-size="12">缓存服务</text>
+                    <text x="790" y="670" font-size="12">- Redis Cluster</text>
+                    <text x="790" y="690" font-size="12" fill="#666">（热点图书信息、读者信息缓存）</text>
+                
+                    <!-- 数据层 -->
+                    <rect x="50" y="740" width="1100" height="140" fill="#e6e6ff" rx="5"/>
+                    <text x="60" y="765" font-size="16" font-weight="bold">数据层</text>
                     
-                    A3 --> B1
-                    B4 --> C1
-                    C3 --> D1
-                    
-                    style 展示层 fill:#f9f,stroke:#333
-                    style 应用层 fill:#bbf,stroke:#333
-                    style 数据层 fill:#bfb,stroke:#333
-                    style 基础设施层 fill:#fbb,stroke:#333
-            </div>
-        </div>
-
-        <div class="diagram-container" id="logical">
-            <h2>逻辑架构</h2>
-            <div class="mermaid">
-                flowchart TD
-                    subgraph 前端
-                        A[Web界面] --> B[移动界面]
-                        B --> C[员工界面]
-                    end
-                    
-                    subgraph 核心服务
-                        D[认证服务]
-                        E[编目服务]
-                        F[流通服务]
-                        G[用户服务]
-                    end
-                    
-                    subgraph 支持服务
-                        H[通知服务]
-                        I[支付服务]
-                        J[报表服务]
-                    end
-                    
-                    subgraph 数据服务
-                        K[数据库服务]
-                        L[缓存服务]
-                        M[检索服务]
-                    end
-                    
-                    C --> D
-                    D --> E
-                    E --> F
-                    F --> G
-                    G --> H
-                    H --> I
-                    I --> J
-                    J --> K
-                    K --> L
-                    L --> M
-                    
-                    style 前端 fill:#f9f,stroke:#333
-                    style 核心服务 fill:#bbf,stroke:#333
-                    style 支持服务 fill:#bfb,stroke:#333
-                    style 数据服务 fill:#fbb,stroke:#333
-            </div>
-        </div>
-
-        <div class="diagram-container" id="data">
-            <h2>数据架构</h2>
-            <div class="mermaid">
-                erDiagram
-                    BOOK ||--o{ BOOK_COPY : contains
-                    BOOK_COPY ||--o{ BORROW_RECORD : involved_in
-                    MEMBER ||--o{ BORROW_RECORD : borrows
-                    MEMBER ||--o{ RESERVATION : makes
-                    BOOK ||--o{ RESERVATION : reserved_for
-                    MEMBER ||--o{ FINE : pays
-                    BORROW_RECORD ||--o{ FINE : generates
-                    BOOK {
-                        string isbn PK
-                        string title
-                        string author
-                        string publisher
-                        string category
-                        date publish_date
-                        string language
-                        string description
-                        int total_copies
-                    }
-                    BOOK_COPY {
-                        string copy_id PK
-                        string book_isbn FK
-                        string status
-                        string location
-                        date purchase_date
-                        float price
-                        string condition
-                    }
-                    MEMBER {
-                        string member_id PK
-                        string name
-                        string email
-                        string phone
-                        date register_date
-                        string status
-                        string type
-                        float deposit
-                    }
-                    BORROW_RECORD {
-                        string borrow_id PK
-                        string copy_id FK
-                        string member_id FK
-                        date borrow_date
-                        date due_date
-                        date return_date
-                        string status
-                        string operator
-                    }
-                    RESERVATION {
-                        string reservation_id PK
-                        string book_isbn FK
-                        string member_id FK
-                        date reserve_date
-                        date valid_until
-                        string status
-                        int queue_position
-                    }
-                    FINE {
-                        string fine_id PK
-                        string borrow_id FK
-                        float amount
-                        string reason
-                        date create_date
-                        date paid_date
-                        string status
-                        string payment_method
-                    }
+                    <rect x="60" y="780" width="530" height="90" fill="#ffffff" stroke="#666"/>
+                    <text x="70" y="805" font-size="12">关系型数据库</text>
+                    <text x="70" y="830" font-size="12">- MySQL Cluster</text>
+                    <text x="70" y="850" font-size="12" fill="#666">（存储图书、读者、借阅等核心业务数据）</text>
+                
+                    <rect x="610" y="780" width="530" height="90" fill="#ffffff" stroke="#666"/>
+                    <text x="620" y="805" font-size="12">检索与文档数据库</text>
+                    <text x="620" y="830" font-size="12">- Elasticsearch + MongoDB</text>
+                    <text x="620" y="850" font-size="12" fill="#666">（存储图书全文信息、系统日志等非结构化数据）</text>
+                </svg>
             </div>
         </div>
 
         <div class="diagram-container" id="physical">
             <h2>物理架构</h2>
-            <div class="mermaid">
-                flowchart TD
-                    subgraph 互联网区
-                        A[CDN] --> B[负载均衡器]
-                        B --> C[Web应用防火墙]
-                    end
+            <div class="svg-container">
+                <svg id="physical-svg" class="responsive-svg", xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet">
+                    <!-- 背景 -->
+                    <rect width="1200" height="800" fill="#f5f5f5"/>
                     
-                    subgraph 应用区
-                        D[Web服务器] --> E[应用服务器]
-                        E --> F[缓存服务器]
-                    end
+                    <!-- 标题 -->
+                    <text x="400" y="40" font-size="24" font-weight="bold">图书馆管理系统物理架构图</text>
                     
-                    subgraph 数据区
-                        G[主数据库] --> H[从数据库]
-                        I[搜索集群] --> J[备份系统]
-                    end
+                    <!-- 用户接入区 -->
+                    <rect x="50" y="80" width="200" height="200" fill="#e6f3ff" stroke="#666" rx="5"/>
+                    <text x="100" y="110" font-size="16" font-weight="bold">用户接入区</text>
+                    <image x="70" y="130" width="40" height="40" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTQgMTlIN1YxMUg0djh6bTYgMGgzVjhoLTN2MTF6bTYgMGgzVjNoLTN2MTZ6Ii8+PC9zdmc+"/>
+                    <text x="120" y="155" font-size="12">读者PC终端</text>
+                    <image x="70" y="180" width="40" height="40" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTQgMTlIN1YxMUg0djh6bTYgMGgzVjhoLTN2MTF6bTYgMGgzVjNoLTN2MTZ6Ii8+PC9zdmc+"/>
+                    <text x="120" y="205" font-size="12">移动设备APP</text>
+                    <image x="70" y="230" width="40" height="40" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTQgMTlIN1YxMUg0djh6bTYgMGgzVjhoLTN2MTF6bTYgMGgzVjNoLTN2MTZ6Ii8+PC9zdmc+"/>
+                    <text x="120" y="255" font-size="12">自助借还终端</text>
+                
+                    <!-- DMZ区 -->
+                    <rect x="300" y="80" width="250" height="200" fill="#fff0f5" stroke="#666" rx="5"/>
+                    <text x="380" y="110" font-size="16" font-weight="bold">DMZ区</text>
                     
-                    C --> D
-                    F --> G
-                    F --> I
+                    <!-- 负载均衡 -->
+                    <rect x="320" y="130" width="210" height="130" fill="#ffffff" stroke="#666" rx="5"/>
+                    <text x="340" y="155" font-size="14" font-weight="bold">负载均衡层</text>
+                    <text x="340" y="185" font-size="12">- Nginx反向代理服务器</text>
+                    <text x="340" y="210" font-size="12">- WAF安全防护</text>
+                    <text x="340" y="235" font-size="12">- DDoS防护</text>
+                
+                    <!-- 应用服务区 -->
+                    <rect x="600" y="80" width="250" height="500" fill="#f0fff0" stroke="#666" rx="5"/>
+                    <text x="680" y="110" font-size="16" font-weight="bold">应用服务区</text>
                     
-                    style 互联网区 fill:#f9f,stroke:#333
-                    style 应用区 fill:#bbf,stroke:#333
-                    style 数据区 fill:#bfb,stroke:#333
+                    <!-- 应用服务器集群 -->
+                    <rect x="620" y="130" width="210" height="420" fill="#ffffff" stroke="#666" rx="5"/>
+                    <text x="640" y="155" font-size="14" font-weight="bold">应用服务器集群</text>
+                    <rect x="640" y="170" width="170" height="80" fill="#e6ffe6" stroke="#666" rx="3"/>
+                    <text x="650" y="195" font-size="12">图书管理服务器集群</text>
+                    <text x="650" y="220" font-size="12">(4台物理服务器)</text>
+                    
+                    <rect x="640" y="270" width="170" height="80" fill="#e6ffe6" stroke="#666" rx="3"/>
+                    <text x="650" y="295" font-size="12">借阅管理服务器集群</text>
+                    <text x="650" y="320" font-size="12">(4台物理服务器)</text>
+                    
+                    <rect x="640" y="370" width="170" height="80" fill="#e6ffe6" stroke="#666" rx="3"/>
+                    <text x="650" y="395" font-size="12">用户管理服务器集群</text>
+                    <text x="650" y="420" font-size="12">(2台物理服务器)</text>
+                    
+                    <rect x="640" y="470" width="170" height="60" fill="#e6ffe6" stroke="#666" rx="3"/>
+                    <text x="650" y="495" font-size="12">缓存服务器集群</text>
+                    <text x="650" y="520" font-size="12">(Redis集群)</text>
+                
+                    <!-- 数据存储区 -->
+                    <rect x="900" y="80" width="250" height="500" fill="#e6e6ff" stroke="#666" rx="5"/>
+                    <text x="980" y="110" font-size="16" font-weight="bold">数据存储区</text>
+                    
+                    <!-- 数据库服务器 -->
+                    <rect x="920" y="130" width="210" height="420" fill="#ffffff" stroke="#666" rx="5"/>
+                    <text x="940" y="155" font-size="14" font-weight="bold">数据库服务器集群</text>
+                    
+                    <rect x="940" y="170" width="170" height="100" fill="#e6ffe6" stroke="#666" rx="3"/>
+                    <text x="950" y="195" font-size="12">MySQL主从集群</text>
+                    <text x="950" y="220" font-size="12">- 1主2从架构</text>
+                    <text x="950" y="245" font-size="12">- 数据实时同步</text>
+                    
+                    <rect x="940" y="290" width="170" height="100" fill="#e6ffe6" stroke="#666" rx="3"/>
+                    <text x="950" y="315" font-size="12">MongoDB集群</text>
+                    <text x="950" y="340" font-size="12">- 1主2从架构</text>
+                    <text x="950" y="365" font-size="12">- 非结构化数据存储</text>
+                    
+                    <rect x="940" y="410" width="170" height="100" fill="#e6ffe6" stroke="#666" rx="3"/>
+                    <text x="950" y="435" font-size="12">备份存储系统</text>
+                    <text x="950" y="460" font-size="12">- 异地容灾备份</text>
+                    <text x="950" y="485" font-size="12">- 定时数据备份</text>
+                
+                    <!-- 运维监控区 -->
+                    <rect x="50" y="600" width="1100" height="150" fill="#ffe6cc" stroke="#666" rx="5"/>
+                    <text x="520" y="630" font-size="16" font-weight="bold">运维监控区</text>
+                    
+                    <rect x="70" y="650" width="250" height="80" fill="#ffffff" stroke="#666" rx="3"/>
+                    <text x="90" y="680" font-size="12">系统监控服务器</text>
+                    <text x="90" y="700" font-size="12">(Zabbix监控平台)</text>
+                    
+                    <rect x="340" y="650" width="250" height="80" fill="#ffffff" stroke="#666" rx="3"/>
+                    <text x="360" y="680" font-size="12">日志收集服务器</text>
+                    <text x="360" y="700" font-size="12">(ELK日志分析平台)</text>
+                    
+                    <rect x="610" y="650" width="250" height="80" fill="#ffffff" stroke="#666" rx="3"/>
+                    <text x="630" y="680" font-size="12">备份管理服务器</text>
+                    <text x="630" y="700" font-size="12">(自动备份系统)</text>
+                    
+                    <rect x="880" y="650" width="250" height="80" fill="#ffffff" stroke="#666" rx="3"/>
+                    <text x="900" y="680" font-size="12">运维管理服务器</text>
+                    <text x="900" y="700" font-size="12">(Jenkins自动化运维)</text>
+                
+                    <!-- 连接线 -->
+                    <path d="M250 180 L300 180" stroke="#666" stroke-width="2" fill="none"/>
+                    <path d="M550 180 L600 180" stroke="#666" stroke-width="2" fill="none"/>
+                    <path d="M850 180 L900 180" stroke="#666" stroke-width="2" fill="none"/>
+                </svg>
             </div>
         </div>
     </div>
 
     <script>
+        // Mermaid初始化
         mermaid.initialize({
             startOnLoad: true,
             theme: 'default',
@@ -339,10 +661,153 @@
             }
         });
 
+        // 加载需求分析内容
+        const requirementsContent = `
+# 图书馆管理系统需求分析
+
+## 一、功能需求分析
+
+### 1. 图书资源管理
+图书资源管理模块负责整个图书馆馆藏资源的全生命周期管理，包括：
+
+- **图书入库管理**
+  - 新书采购入库流程
+  - 图书信息录入与编目
+  - 条形码/RFID标签生成
+  - 图书分类与上架管理
+  
+- **图书信息维护**
+  - 图书基本信息管理
+  - 库存动态监控
+  - 图书状态跟踪（在库/借出/损坏/遗失）
+  
+- **馆藏资源检索**
+  - 多维度检索（书名/作者/ISBN/分类号）
+  - 馆藏信息查询
+  - 图书定位导航
+  
+- **图书盘点管理**
+  - 定期盘点计划
+  - 盘盈盘亏处理
+  - 库存差异分析
+
+### 2. 读者服务管理
+读者服务管理模块负责管理读者信息及其图书馆使用权限：
+
+- **读者信息管理**
+  - 读者注册与信息维护
+  - 读者类别管理（学生/教师/社会读者）
+  - 读者权限分级
+  
+- **借阅证管理**
+  - 借阅证办理/挂失/补办/注销
+  - 读者认证授权
+  - 违规记录管理
+  
+- **借阅权限管理**
+  - 不同类别读者借阅规则设置
+  - 借阅数量与期限管理
+  - 信用评级管理
+
+### 3. 借阅服务管理
+借阅服务管理模块处理日常图书借还相关业务：
+
+- **借阅管理**
+  - 图书借出处理
+  - 续借服务
+  - 预约管理
+  
+- **归还管理**
+  - 图书归还处理
+  - 超期处理
+  - 损坏赔偿管理
+  
+- **借阅提醒**
+  - 到期提醒
+  - 超期催还
+  - 预约到馆通知
+
+### 4. 系统管理功能
+系统管理模块确保系统正常运行及安全：
+
+- **用户管理**
+  - 操作员账号管理
+  - 角色权限配置
+  - 系统访问控制
+  
+- **基础数据管理**
+  - 图书分类维护
+  - 借阅规则配置
+  - 系统参数设置
+  
+- **系统监控**
+  - 操作日志记录
+  - 系统运行监控
+  - 数据备份恢复
+
+---
+
+## 二、质量需求分析
+
+### 1. 性能需求
+- 系统响应时间：常规操作响应时间不超过3秒
+- 并发处理能力：支持100人以上同时在线操作
+- 数据处理量：支持50万册图书、3万名读者数据管理
+
+### 2. 可靠性需求
+- 系统稳定性：年平均无故障运行时间达到99.9%
+- 数据安全：提供完整的数据备份与恢复机制
+- 故障恢复：系统发生故障时，能在30分钟内恢复正常运行
+
+### 3. 安全性需求
+- 访问控制：基于角色的严格权限管理机制
+- 数据保护：重要数据传输加密，防止未授权访问
+- 审计跟踪：关键操作全程记录，保留详细操作日志
+
+### 4. 易用性需求
+- 操作界面：符合用户使用习惯，导航清晰直观
+- 操作效率：主要功能操作步骤不超过3步
+- 帮助支持：提供完善的在线帮助和用户指南
+
+### 5. 可维护性需求
+- 系统扩展：支持新功能模块的便捷扩展
+- 参数配置：系统参数可灵活配置调整
+- 运维监控：提供完善的系统监控和维护工具
+
+### 6. 兼容性需求
+- 浏览器兼容：支持主流浏览器访问使用
+- 移动端支持：支持手机、平板等移动设备访问
+- 数据兼容：支持主流数据格式的导入导出
+        `;
+        document.getElementById('requirements-content').innerHTML = marked.parse(requirementsContent);
+
+        // 滚动函数
         function scrollToView(id) {
             document.getElementById(id).scrollIntoView({
                 behavior: 'smooth'
             });
+        }
+
+        // 导航项点击处理
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(navItem => {
+                    navItem.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        // SVG缩放功能
+        function zoomSVG(svgId, scale) {
+            const svg = document.getElementById(svgId);
+            const currentScale = svg.style.transform ? 
+                parseFloat(svg.style.transform.replace('scale(', '').replace(')', '')) : 1;
+            const newScale = currentScale * scale;
+            
+            if (newScale >= 0.5 && newScale <= 2) {
+                svg.style.transform = `scale(${newScale})`;
+            }
         }
     </script>
 </body>
