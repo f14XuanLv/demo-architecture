@@ -333,129 +333,220 @@
         <div class="diagram-container" id="logical">
             <h2>应用架构 (逻辑架构)</h2>
             <div class="svg-container">
-                <svg id="logical-svg" class="responsive-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet">
-                    <!-- 背景 -->
-                    <rect width="1200" height="800" fill="#f5f5f5"/>
-                    
-                    <!-- 箭头定义 -->
+                <svg id="logical-svg" class="responsive-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid meet">
+                    <!-- 定义所有图标 -->
                     <defs>
+                        <!-- Web门户图标 -->
+                        <symbol id="web-icon" viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z" fill="#1976d2"/>
+                        </symbol>
+                        
+                        <!-- 移动APP图标 -->
+                        <symbol id="mobile-icon" viewBox="0 0 24 24">
+                            <path d="M16 1H8C6.34 1 5 2.34 5 4v16c0 1.66 1.34 3 3 3h8c1.66 0 3-1.34 3-3V4c0-1.66-1.34-3-3-3zm-2 20h-4v-1h4v1zm3.25-3H6.75V4h10.5v14z" fill="#43a047"/>
+                        </symbol>
+                        
+                        <!-- 自助终端图标 - 竖屏机器样式 -->
+                        <symbol id="kiosk-icon" viewBox="0 0 24 24">
+                            <path d="M4 2h16c1.1 0 2 .9 2 2v16c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2zm0 2v12h16V4H4zm8 14c.83 0 1.5.67 1.5 1.5S12.83 21 12 21s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5z" fill="#f57c00"/>
+                            <rect x="6" y="6" width="12" height="8" fill="#f57c00"/>
+                        </symbol>
+                        
+                        <!-- 管理终端图标 - 多屏幕控制室样式 -->
+                        <symbol id="control-icon" viewBox="0 0 24 24">
+                            <path d="M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7l-2 3v1h8v-1l-2-3h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H3V4h18v12z" fill="#7b1fa2"/>
+                            <rect x="4" y="5" width="7" height="5" fill="#7b1fa2"/>
+                            <rect x="13" y="5" width="7" height="5" fill="#7b1fa2"/>
+                            <rect x="4" y="11" width="7" height="3" fill="#7b1fa2"/>
+                            <rect x="13" y="11" width="7" height="3" fill="#7b1fa2"/>
+                        </symbol>
+
+                        <!-- 结构化数据图标 - 数据库样式 -->
+                        <symbol id="structured-db-icon" viewBox="0 0 24 24">
+                            <ellipse cx="12" cy="5" rx="10" ry="3" fill="#1565c0"/>
+                            <path d="M22 5v4c0 1.66-4.48 3-10 3S2 10.66 2 9V5" fill="none" stroke="#1565c0" stroke-width="1"/>
+                            <ellipse cx="12" cy="9" rx="10" ry="3" fill="#1565c0" fill-opacity="0.8"/>
+                            <path d="M22 9v4c0 1.66-4.48 3-10 3S2 14.66 2 13V9" fill="none" stroke="#1565c0" stroke-width="1"/>
+                            <ellipse cx="12" cy="13" rx="10" ry="3" fill="#1565c0" fill-opacity="0.6"/>
+                            <path d="M22 13v4c0 1.66-4.48 3-10 3S2 18.66 2 17v-4" fill="none" stroke="#1565c0" stroke-width="1"/>
+                            <ellipse cx="12" cy="17" rx="10" ry="3" fill="#1565c0" fill-opacity="0.4"/>
+                        </symbol>
+
+                        <!-- 非结构化数据图标 - 文档样式 -->
+                        <symbol id="doc-icon" viewBox="0 0 24 24">
+                            <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z" fill="#dd2c00"/>
+                            <path d="M8 14h8v2H8v-2zm0-4h8v2H8v-2zm0 8h4v2H8v-2z" fill="#dd2c00"/>
+                        </symbol>
+
+                        <!-- 箭头标记定义 -->
                         <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
                             <path d="M0,0 L0,6 L9,3 z" fill="#666"/>
                         </marker>
+
+                        <!-- 双向箭头符号 -->
+                        <symbol id="doubleArrow" viewBox="0 0 120 20">
+                            <path d="M 0,10 L 120,10 M 120,10 l -15,-8 l 0,16 z M 0,10 l 15,-8 l 0,16 z" 
+                                fill="currentColor" 
+                                stroke="currentColor" 
+                                stroke-width="2"
+                                stroke-linejoin="round"/>
+                        </symbol>
                     </defs>
-                
-                    <!-- 左侧数据分析栏 - 调整位置和尺寸 -->
+
+                    <!-- 左侧数据分析栏 -->
                     <rect x="50" y="180" width="100" height="400" fill="#4db6ac" rx="5"/>
-                    <!-- 调整文字位置和间距 -->
                     <text x="100" y="280" font-size="16" fill="#fff" writing-mode="tb" text-anchor="middle">数据查询</text>
                     <text x="100" y="380" font-size="16" fill="#fff" writing-mode="tb" text-anchor="middle">数据统计</text>
                     <text x="100" y="480" font-size="16" fill="#fff" writing-mode="tb" text-anchor="middle">数据分析</text>
-                
+
                     <!-- 展示层 -->
                     <rect x="170" y="20" width="760" height="100" fill="#b3e0ff" rx="5"/>
-                    <text x="190" y="50" font-size="16" font-weight="bold" fill="#000">展示层</text>
+                    <text x="190" y="50" font-size="16" font-weight="bold">展示层</text>
                     <rect x="190" y="60" width="720" height="50" fill="#fff" rx="5"/>
-                    <text x="210" y="90" font-size="14" fill="#000">Web门户</text>
-                    <text x="410" y="90" font-size="14" fill="#000">移动APP</text>
-                    <text x="610" y="90" font-size="14" fill="#000">自助终端</text>
-                    <text x="810" y="90" font-size="14" fill="#000">管理终端</text>
-                
+                    
+                    <!-- 展示层图标和文字 -->
+                    <use href="#web-icon" x="210" y="65" width="24" height="24"/>
+                    <text x="210" y="100" font-size="14">Web门户</text>
+                    
+                    <use href="#mobile-icon" x="410" y="65" width="24" height="24"/>
+                    <text x="410" y="100" font-size="14">移动APP</text>
+                    
+                    <use href="#kiosk-icon" x="610" y="65" width="24" height="24"/>
+                    <text x="610" y="100" font-size="14">自助终端</text>
+                    
+                    <use href="#control-icon" x="810" y="65" width="24" height="24"/>
+                    <text x="810" y="100" font-size="14">管理终端</text>
+
                     <!-- 负载均衡层 -->
                     <rect x="170" y="130" width="760" height="40" fill="#80cbc4" rx="5"/>
                     <text x="500" y="155" font-size="14" fill="#fff">负载均衡</text>
-                
+
                     <!-- 应用服务层 -->
                     <rect x="170" y="180" width="760" height="400" fill="#d9f2d9" rx="5"/>
-                    <text x="190" y="210" font-size="16" font-weight="bold" fill="#000">应用服务层</text>
-                
+                    <text x="190" y="210" font-size="16" font-weight="bold">应用服务层</text>
+
                     <!-- 业务服务组A -->
                     <rect x="190" y="230" width="220" height="160" fill="#e6ffe6" rx="5" stroke="#666"/>
-                    <text x="200" y="250" font-size="14" font-weight="bold" fill="#000">图书资源服务组</text>
+                    <text x="200" y="250" font-size="14" font-weight="bold">图书资源服务组</text>
                     <rect x="200" y="260" width="200" height="30" fill="#90EE90" rx="3"/>
-                    <text x="210" y="280" font-size="12" fill="#000">资源采购服务</text>
+                    <text x="210" y="280" font-size="12">资源采购服务</text>
                     <rect x="200" y="300" width="200" height="30" fill="#90EE90" rx="3"/>
-                    <text x="210" y="320" font-size="12" fill="#000">编目分类服务</text>
+                    <text x="210" y="320" font-size="12">编目分类服务</text>
                     <rect x="200" y="340" width="200" height="30" fill="#90EE90" rx="3"/>
-                    <text x="210" y="360" font-size="12" fill="#000">馆藏管理服务</text>
-                
+                    <text x="210" y="360" font-size="12">馆藏管理服务</text>
+
                     <!-- 业务服务组B -->
                     <rect x="440" y="230" width="220" height="160" fill="#e6ffe6" rx="5" stroke="#666"/>
-                    <text x="450" y="250" font-size="14" font-weight="bold" fill="#000">借阅服务组</text>
+                    <text x="450" y="250" font-size="14" font-weight="bold">借阅服务组</text>
                     <rect x="450" y="260" width="200" height="30" fill="#90EE90" rx="3"/>
-                    <text x="460" y="280" font-size="12" fill="#000">借还处理服务</text>
+                    <text x="460" y="280" font-size="12">借还处理服务</text>
                     <rect x="450" y="300" width="200" height="30" fill="#90EE90" rx="3"/>
-                    <text x="460" y="320" font-size="12" fill="#000">预约续借服务</text>
+                    <text x="460" y="320" font-size="12">预约续借服务</text>
                     <rect x="450" y="340" width="200" height="30" fill="#90EE90" rx="3"/>
-                    <text x="460" y="360" font-size="12" fill="#000">催还处理服务</text>
-                
+                    <text x="460" y="360" font-size="12">催还处理服务</text>
+
                     <!-- 业务服务组C -->
                     <rect x="690" y="230" width="220" height="160" fill="#e6ffe6" rx="5" stroke="#666"/>
-                    <text x="700" y="250" font-size="14" font-weight="bold" fill="#000">读者服务组</text>
+                    <text x="700" y="250" font-size="14" font-weight="bold">读者服务组</text>
                     <rect x="700" y="260" width="200" height="30" fill="#90EE90" rx="3"/>
-                    <text x="710" y="280" font-size="12" fill="#000">读者管理服务</text>
+                    <text x="710" y="280" font-size="12">读者管理服务</text>
                     <rect x="700" y="300" width="200" height="30" fill="#90EE90" rx="3"/>
-                    <text x="710" y="320" font-size="12" fill="#000">证件管理服务</text>
+                    <text x="710" y="320" font-size="12">证件管理服务</text>
                     <rect x="700" y="340" width="200" height="30" fill="#90EE90" rx="3"/>
-                    <text x="710" y="360" font-size="12" fill="#000">权限管理服务</text>
-                
+                    <text x="710" y="360" font-size="12">权限管理服务</text>
+
                     <!-- 中间件层 -->
                     <rect x="190" y="400" width="720" height="160" fill="#fff" rx="5"/>
-                    <text x="200" y="420" font-size="14" font-weight="bold" fill="#000">中间件服务</text>
+                    <text x="200" y="420" font-size="14" font-weight="bold">中间件服务</text>
                     
-                    <!-- 中间件服务 -->
                     <rect x="200" y="430" width="160" height="120" fill="#e6ffe6" rx="3"/>
-                    <text x="220" y="480" font-size="12" fill="#000">工作流引擎</text>
+                    <text x="220" y="480" font-size="12">工作流引擎</text>
                     
                     <rect x="370" y="430" width="160" height="120" fill="#e6ffe6" rx="3"/>
-                    <text x="390" y="480" font-size="12" fill="#000">资源管理</text>
+                    <text x="390" y="480" font-size="12">资源管理</text>
                     
                     <rect x="540" y="430" width="160" height="120" fill="#e6ffe6" rx="3"/>
-                    <text x="560" y="480" font-size="12" fill="#000">接口规范</text>
+                    <text x="560" y="480" font-size="12">接口规范</text>
                     
                     <rect x="710" y="430" width="160" height="120" fill="#e6ffe6" rx="3"/>
-                    <text x="730" y="480" font-size="12" fill="#000">消息队列</text>
-                
+                    <text x="730" y="480" font-size="12">消息队列</text>
+
                     <!-- 数据层 -->
                     <rect x="170" y="590" width="760" height="160" fill="#ffcc99" rx="5"/>
-                    <text x="190" y="620" font-size="16" font-weight="bold" fill="#000">数据层</text>
-                
-                    <!-- 结构化数据 -->
+                    <text x="190" y="620" font-size="16" font-weight="bold">数据层</text>
+
+                    <!-- 结构化数据区域 -->
                     <rect x="190" y="630" width="350" height="100" fill="#fff" rx="5"/>
-                    <text x="200" y="650" font-size="14" fill="#000">结构化数据</text>
-                    <text x="200" y="680" font-size="12" fill="#000">关系型数据库</text>
-                    <text x="200" y="700" font-size="12" fill="#000">缓存数据库</text>
-                
-                    <!-- 非结构化数据 -->
+                    <use href="#structured-db-icon" x="200" y="635" width="40" height="40"/>
+                    <text x="250" y="660" font-size="14">结构化数据</text>
+                    <text x="200" y="685" font-size="12">关系型数据库</text>
+                    <text x="200" y="705" font-size="12">缓存数据库</text>
+
+                    <!-- 非结构化数据区域 -->
                     <rect x="560" y="630" width="350" height="100" fill="#fff" rx="5"/>
-                    <text x="570" y="650" font-size="14" fill="#000">非结构化数据</text>
-                    <text x="570" y="680" font-size="12" fill="#000">文件存储</text>
-                    <text x="570" y="700" font-size="12" fill="#000">检索引擎</text>
-                
+                    <use href="#doc-icon" x="570" y="635" width="40" height="40"/>
+                    <text x="620" y="660" font-size="14">非结构化数据</text>
+                    <text x="570" y="685" font-size="12">文件存储</text>
+                    <text x="570" y="705" font-size="12">检索引擎</text>
+
                     <!-- 外部系统集成 -->
                     <rect x="950" y="180" width="200" height="400" fill="#ffe6cc" rx="5"/>
-                    <text x="970" y="210" font-size="16" font-weight="bold" fill="#000">外部系统集成</text>
+                    <text x="970" y="210" font-size="16" font-weight="bold">外部系统集成</text>
                     <rect x="970" y="230" width="160" height="330" fill="#fff" rx="5"/>
-                    <text x="990" y="260" font-size="14" fill="#000">一卡通系统</text>
-                    <text x="990" y="290" font-size="14" fill="#000">财务系统</text>
-                    <text x="990" y="320" font-size="14" fill="#000">门禁系统</text>
-                    <text x="990" y="350" font-size="14" fill="#000">资产系统</text>
-                    <text x="990" y="380" font-size="14" fill="#000">短信系统</text>
-                    <text x="990" y="410" font-size="14" fill="#000">邮件系统</text>
-                
-                    <!-- 交互箭头 -->
-                    <path d="M550,120 L550,130" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
-                    <path d="M550,170 L550,180" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    <text x="990" y="260" font-size="14">一卡通系统</text>
+                    <text x="990" y="290" font-size="14">财务系统</text>
+                    <text x="990" y="320" font-size="14">门禁系统</text>
+                    <text x="990" y="350" font-size="14">资产系统</text>
+                    <text x="990" y="380" font-size="14">短信系统</text>
+                    <text x="990" y="410" font-size="14">邮件系统</text>
+
+                    <!-- 基础设施层 -->
+                    <rect x="170" y="760" width="760" height="120" fill="#88e6e6" rx="5"/>
+                    <text x="190" y="790" font-size="16" font-weight="bold">基础设施层</text>
+
+                    <!-- 基础设施服务分组 -->
+                    <rect x="190" y="800" width="230" height="70" fill="#fff" rx="5"/>
+                    <text x="200" y="820" font-size="14">服务器资源</text>
+                    <text x="200" y="840" font-size="12">- 应用服务器集群</text>
+                    <text x="200" y="855" font-size="12">- 数据库服务器</text>
+
+                    <rect x="440" y="800" width="230" height="70" fill="#fff" rx="5"/>
+                    <text x="450" y="820" font-size="14">网络资源</text>
+                    <text x="450" y="840" font-size="12">- 负载均衡设备</text>
+                    <text x="450" y="855" font-size="12">- 网络安全设备</text>
+
+                    <rect x="690" y="800" width="230" height="70" fill="#fff" rx="5"/>
+                    <text x="700" y="820" font-size="14">存储资源</text>
+                    <text x="700" y="840" font-size="12">- 存储阵列</text>
+                    <text x="700" y="855" font-size="12">- 备份设备</text>
+
+                    <!-- 连接线和箭头 -->
+                    <!-- 展示层与负载均衡层连接 -->
+                    <path d="M550,125 L550,115" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    
+                    <!-- 服务组之间的连接 -->
                     <path d="M410,310 L440,310" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
                     <path d="M660,310 L690,310" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
-                    <path d="M300,390 L300,430" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
-                    <path d="M550,390 L550,430" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
-                    <path d="M800,390 L800,430" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
-                    <path d="M300,550 L300,590" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
-                    <path d="M550,550 L550,590" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
-                    <path d="M800,550 L800,590" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    
+                    <!-- 服务层与中间件层的连接 -->
+                    <path d="M300,430 L300,390" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    <path d="M550,430 L550,390" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    <path d="M800,430 L800,390" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    
+                    <!-- 中间件层与数据层的双向箭头 -->
+                    <use href="#doubleArrow" x="280" y="550" width="40" height="20" transform="rotate(90,300,570)" fill="#666"/>
+                    <use href="#doubleArrow" x="780" y="550" width="40" height="20" transform="rotate(90,800,570)" fill="#666"/>
+                    
+                    <!-- 数据层与基础设施层的箭头 -->
+                    <path d="M300,760 L300,730" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    <path d="M800,760 L800,730" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    
+                    <!-- 左侧数据分析与应用层的连接 -->
+                    <path d="M190,350 L150,350" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
+                    
+                    <!-- 应用层与外部系统的连接 -->
                     <path d="M930,310 L950,310" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
                     <path d="M950,480 L930,480" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
-                    <path d="M150,350 L190,350" stroke="#666" stroke-width="2" marker-end="url(#arrow)" fill="none"/>
                 </svg>
             </div>
         </div>
